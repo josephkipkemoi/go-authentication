@@ -26,7 +26,7 @@ func RegisterUserHandler(c *gin.Context) {
 	u, e := u.SaveUser(database.DB)
 	if e != nil {
 		c.IndentedJSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "User is already registered. Please login to continue.",
+			"error": e.Error(),
 		})
 		return
 	}
@@ -43,6 +43,7 @@ func RegisterUserHandler(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusCreated, gin.H{
 		"user": gin.H{
+			"id":           u.Id,
 			"phone_number": u.PhoneNumber,
 		},
 		"token": tokenString,
