@@ -25,14 +25,14 @@ func AuthorizeJWT() func(*gin.Context) {
 		authHeader := strings.Split(c.GetHeader("Authorization"), "Bearer ")
 		if len(authHeader) != 2 {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Malformed Token",
+				"error": "unauthorized/malformed token",
 			})
 			return
 		} else {
 			jwtToken := authHeader[1]
 			s := strings.Trim(jwtToken, " ")
 
-			err := handlers.VerifyToken(s)
+			err, _ := handlers.VerifyToken(s)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{
 					"error": "unauthorized: " + err.Error(),

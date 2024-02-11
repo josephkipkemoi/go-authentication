@@ -57,20 +57,23 @@ func createJWTToken(username string) (string, error) {
 	return s, nil
 }
 
-func VerifyToken(tokenString string) error {
+func VerifyToken(tokenString string) (error, interface{}) {
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		return tokenString, nil
 	})
 	_, ok := token.Method.(*jwt.SigningMethodHMAC)
 
 	if !ok {
-		return err
+		return err, ""
 	}
+
+	c := token.Claims.(jwt.MapClaims)
+	usr := c["username"]
 
 	// TODO Later : Validate if token is valid
 	// if !token.Valid {
 	// 	return fmt.Errorf("invalid token")
 	// }
 
-	return nil
+	return nil, usr
 }
