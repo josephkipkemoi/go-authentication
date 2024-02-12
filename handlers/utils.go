@@ -40,7 +40,7 @@ var (
 	t   *jwt.Token
 )
 
-func createJWTToken(username string) (string, error) {
+func createJWTToken(username string, id int) (string, error) {
 	key = []byte("maasai")              // load from .env
 	t = jwt.New(jwt.SigningMethodHS256) // create new token
 
@@ -48,6 +48,7 @@ func createJWTToken(username string) (string, error) {
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 	claims["authorized"] = true
 	claims["username"] = username
+	claims["u_id"] = id
 
 	s, err := t.SignedString(key)
 	if err != nil {

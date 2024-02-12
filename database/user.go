@@ -40,9 +40,9 @@ func (u User) SaveUser(db *sql.DB) (User, error) {
 	return u, nil
 }
 
-func (u User) GetUser(db *sql.DB, phone_number int) (int, string) {
+func (u User) GetUserID(phone_number int) (int, string) {
 	getUserSQL := `SELECT id FROM users WHERE phone_number = ?`
-	row, err := db.Query(getUserSQL, phone_number)
+	row, err := DB.Query(getUserSQL, phone_number)
 	if err != nil {
 		return 0, err.Error()
 	}
@@ -54,19 +54,20 @@ func (u User) GetUser(db *sql.DB, phone_number int) (int, string) {
 	return id, ""
 }
 
-func (u User) GetUsers(db *sql.DB) {
+func (u User) GetUsers() (int, int) {
 	getUsersSQL := `SELECT * FROM users`
-	row, err := db.Query(getUsersSQL)
+	row, err := DB.Query(getUsersSQL)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	var id int
+	var phone_number int
+	var password string
 	for row.Next() {
-		var id int
-		var phone_number int
-		var password string
 		row.Scan(&id, &phone_number, &password)
-		log.Println(id, phone_number, password)
 	}
+	return id, phone_number
+
 }
 
 func (u User) AuthenticateUser(phone int, password string, db *sql.DB) (User, bool) {
@@ -74,7 +75,7 @@ func (u User) AuthenticateUser(phone int, password string, db *sql.DB) (User, bo
 
 	selectQuery := `SELECT phone_number FROM users WHERE phone_number = ? AND password = ?`
 	if err := db.QueryRow(selectQuery, phone, password).Scan(&num); err != nil {
-		u.GetUsers(db)
+		u.GetUsers()
 		return User{}, false
 	}
 

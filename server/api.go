@@ -21,6 +21,7 @@ func apiRoutes(r *gin.Engine) {
 	r.POST("api/login", handlers.LoginUserHandler)
 
 	r.Use(AuthorizeJWT())
+	// Token MUST be prvided for below API routes
 
 	r.GET("api/user", handlers.AuthenticateUserHandler)
 	r.GET("api/users/:user_id/balance", handlers.BalanceHandler)

@@ -33,7 +33,7 @@ func RegisterUserHandler(c *gin.Context) {
 
 	username := strconv.Itoa(u.PhoneNumber)
 
-	tokenString, err := createJWTToken(username)
+	tokenString, err := createJWTToken(username, int(u.Id))
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": "Authorization failure: " + err.Error(),

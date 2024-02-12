@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"jk/go-sportsapp/database"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -42,9 +43,17 @@ func LoginUserHandler(c *gin.Context) {
 		return
 	}
 
-	username := strconv.Itoa(u.PhoneNumber)
+	uId, er := u.GetUserID(u.PhoneNumber)
+	if er != "" {
+		log.Println(er)
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": "Authentication failure. Mobile number or password do not match.",
+		})
+		return
+	}
 
-	tokenString, err := createJWTToken(username)
+	username := strconv.Itoa(u.PhoneNumber)
+	tokenString, err := createJWTToken(username, uId)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": "Authorization failure: " + err.Error(),
@@ -56,6 +65,7 @@ func LoginUserHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"user": gin.H{
+			"id":           uId,
 			"phone_number": u.PhoneNumber,
 		},
 		"token": tokenString,
