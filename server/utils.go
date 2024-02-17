@@ -17,6 +17,13 @@ func SetHeaders() func(*gin.Context) {
 		ctx.Header("Access-Control-Allow-Credentials", "true")
 		ctx.Header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
 		ctx.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Token, Accept, X-Requested-With")
+
+		if ctx.Request.Method == "OPTIONS" {
+			ctx.AbortWithStatus(204)
+			return
+		}
+
+		ctx.Next()
 	}
 }
 
