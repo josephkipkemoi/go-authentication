@@ -11,7 +11,7 @@ func AuthenticateUserHandler(c *gin.Context) {
 	t := c.Request.Header.Get("Authorization")
 	token := strings.Split(t, "Bearer ")
 
-	err, usr := VerifyToken(token[1])
+	usr, err := VerifyToken(token[1])
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),

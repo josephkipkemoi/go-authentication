@@ -32,7 +32,7 @@ func AuthorizeJWT() func(*gin.Context) {
 			jwtToken := authHeader[1]
 			s := strings.Trim(jwtToken, " ")
 
-			err, _ := handlers.VerifyToken(s)
+			_, err := handlers.VerifyToken(s)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{
 					"error": "unauthorized: " + err.Error(),

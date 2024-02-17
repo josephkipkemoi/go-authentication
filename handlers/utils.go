@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"crypto/rand"
-	"encoding/hex"
 	"fmt"
 	"strconv"
 	"strings"
@@ -13,18 +11,7 @@ import (
 
 func VerifyNumberIsInCorrectFormat(n int) bool {
 	str := strconv.Itoa(int(n))
-	if len(str[3:]) != 9 {
-		return false
-	}
-	return true
-}
-
-func generateSecureToken() string {
-	b := make([]byte, 12)
-	if _, err := rand.Read(b); err != nil {
-		return ""
-	}
-	return hex.EncodeToString(b)
+	return len(str[3:]) == 9
 }
 
 func verifyPasswordMatch(str1, str2 string) bool {
@@ -59,14 +46,14 @@ func createJWTToken(username string, id int) (string, error) {
 	return s, nil
 }
 
-func VerifyToken(tokenString string) (error, interface{}) {
+func VerifyToken(tokenString string) (interface{}, error) {
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
 		return tokenString, nil
 	})
 	_, ok := token.Method.(*jwt.SigningMethodHMAC)
 
 	if !ok {
-		return err, ""
+		return "", err
 	}
 
 	c := token.Claims.(jwt.MapClaims)
@@ -77,5 +64,5 @@ func VerifyToken(tokenString string) (error, interface{}) {
 	// 	return fmt.Errorf("invalid token")
 	// }
 
-	return nil, usr
+	return usr, nil
 }
