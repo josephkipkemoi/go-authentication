@@ -29,7 +29,7 @@ func LoginUserHandler(c *gin.Context) {
 	ok := VerifyNumberIsInCorrectFormat(i.PhoneNumber)
 	if !ok {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "Invalid mobile number format.",
+			"error": "invalid mobile number format.",
 		})
 		return
 	}
@@ -38,7 +38,7 @@ func LoginUserHandler(c *gin.Context) {
 	u, verified := u.AuthenticateUser(i.PhoneNumber, i.Password, database.DB)
 	if !verified {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "Authentication failure. Mobile number or password do not match.",
+			"error": "mobile number or password do not match.",
 		})
 		return
 	}
@@ -47,7 +47,7 @@ func LoginUserHandler(c *gin.Context) {
 	if er != "" {
 		log.Println(er)
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "Authentication failure. Mobile number or password do not match.",
+			"error": "mobile number or password do not match.",
 		})
 		return
 	}
@@ -56,7 +56,7 @@ func LoginUserHandler(c *gin.Context) {
 	tokenString, err := createJWTToken(username, uId)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "Authorization failure: " + err.Error(),
+			"error": "authorization failure: " + err.Error(),
 		})
 		return
 	}

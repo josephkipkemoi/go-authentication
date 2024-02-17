@@ -3,6 +3,7 @@ package handlers
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -70,7 +71,7 @@ func VerifyToken(tokenString string) (error, interface{}) {
 
 	c := token.Claims.(jwt.MapClaims)
 	usr := c["username"]
-
+	fmt.Println(c["u_id"])
 	// TODO Later : Validate if token is valid
 	// if !token.Valid {
 	// 	return fmt.Errorf("invalid token")
