@@ -27,13 +27,13 @@ func LoginUserHandler(c *gin.Context) {
 	}
 
 	// Verify number is in correct format
-	ok := VerifyNumberIsInCorrectFormat(i.PhoneNumber)
-	if !ok {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "invalid mobile number format.",
-		})
-		return
-	}
+	// ok := VerifyNumberIsInCorrectFormat(i.PhoneNumber)
+	// if !ok {
+	// 	c.JSON(http.StatusUnprocessableEntity, gin.H{
+	// 		"error": "invalid mobile number format.",
+	// 	})
+	// 	return
+	// }
 
 	// Authenticate and validate user
 	u, verified := u.AuthenticateUser(i.PhoneNumber, i.Password, database.DB)
