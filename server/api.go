@@ -11,8 +11,6 @@ import (
 func ConnectServerRouter() *gin.Engine {
 	r := gin.Default()
 
-	// r.Use(SetHeaders())
-
 	apiRoutes(r) // API endpoint URLs
 
 	return r
@@ -27,6 +25,7 @@ func apiRoutes(r *gin.Engine) {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+	r.Use(SetHeaders())
 
 	r.GET("/", handlers.LandingHandler)
 	r.POST("api/register", handlers.RegisterUserHandler)
