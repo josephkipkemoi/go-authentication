@@ -53,7 +53,7 @@ func (u User) GetUserID(email string) (int, string) {
 	return id, ""
 }
 
-func (u User) GetUsers() []User {
+func GetUsers() []User {
 	var usr User
 	getUsersSQL := `SELECT * FROM users`
 	row, err := DB.Query(getUsersSQL)
@@ -79,7 +79,7 @@ func (u User) AuthenticateUser(phone int, password string, db *sql.DB) (User, bo
 
 	selectQuery := `SELECT phone_number FROM users WHERE phone_number = ? AND password = ?`
 	if err := db.QueryRow(selectQuery, phone, password).Scan(&email); err != nil {
-		u.GetUsers()
+		// u.GetUsers()
 		return User{}, false
 	}
 

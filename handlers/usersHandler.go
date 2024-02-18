@@ -8,8 +8,7 @@ import (
 )
 
 func UsersHandler(c *gin.Context) {
-	u := database.User{}
-	usrs := u.GetUsers()
+	usrs := database.GetUsers()
 	c.JSON(http.StatusOK, gin.H{
 		"users": usrs,
 	})
