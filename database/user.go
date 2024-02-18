@@ -53,19 +53,23 @@ func (u User) GetUserID(email string) (int, string) {
 	return id, ""
 }
 
-func (u User) GetUsers() (int, string) {
+func (u User) GetUsers() []User {
 	getUsersSQL := `SELECT * FROM users`
 	row, err := DB.Query(getUsersSQL)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	var id int
+	var id int64
 	var email string
 	var password string
+	var passcode int
+
+	var users []User
 	for row.Next() {
 		row.Scan(&id, &email, &password)
+		users = append(users, User{Id: id, Email: email, Password: password, Passcode: passcode})
 	}
-	return id, email
+	return users
 
 }
 

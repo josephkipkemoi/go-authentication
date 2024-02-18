@@ -9,9 +9,9 @@ import (
 
 func BalanceHandler(c *gin.Context) {
 	usrs := database.User{}
-	_, p := usrs.GetUsers()
+	u := usrs.GetUsers()
 
 	c.JSON(http.StatusOK, gin.H{
-		"users": p,
+		"users": u,
 	})
 }
