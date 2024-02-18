@@ -14,7 +14,7 @@ type User struct {
 }
 
 func (u User) SaveUser(db *sql.DB) (User, error) {
-	insertUserSQL := `INSERT INTO users(email, password, passcode) VALUES (?, ?)`
+	insertUserSQL := `INSERT INTO users(email, password, passcode) VALUES (?, ?, ?)`
 	statement, err := db.Prepare(insertUserSQL) // prepare statement // good to avoid sql injection
 	if err != nil {
 		log.Fatal(err.Error())
@@ -29,7 +29,7 @@ func (u User) SaveUser(db *sql.DB) (User, error) {
 	// Save user resource to DB
 	res, err := statement.Exec(u.Email, u.Password, u.Passcode)
 	if err != nil {
-		return User{}, errors.New("user already registered. login to continue.")
+		return User{}, errors.New("user already registered. login to continue")
 	}
 
 	id, _ := res.LastInsertId()
