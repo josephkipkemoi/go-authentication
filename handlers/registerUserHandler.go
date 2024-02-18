@@ -13,7 +13,7 @@ func RegisterUserHandler(c *gin.Context) {
 
 	u := database.User{}
 
-	if err := c.ShouldBindJSON(&u); err == nil {
+	if err := c.ShouldBindJSON(&u); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": err,
 		})
