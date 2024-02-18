@@ -3,7 +3,6 @@ package handlers
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -14,14 +13,14 @@ func VerifyNumberIsInCorrectFormat(n int) bool {
 	return len(str[3:]) == 9
 }
 
-func verifyPasswordMatch(str1, str2 string) bool {
-	res := strings.Compare(str1, str2)
-	if res == 0 {
-		return true
-	} else {
-		return false
-	}
-}
+// func verifyPasswordMatch(str1, str2 string) bool {
+// 	res := strings.Compare(str1, str2)
+// 	if res == 0 {
+// 		return true
+// 	} else {
+// 		return false
+// 	}
+// }
 
 var (
 	key []byte

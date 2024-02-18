@@ -19,9 +19,9 @@ func TestUserCannotRegisterWithInvalidPassword(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	u := database.User{
-		PhoneNumber:     700545727,
-		Password:        "1234",
-		ConfirmPassword: "12345",
+		Email:    "700545727",
+		Password: "1234",
+		Passcode: 12345,
 	}
 
 	var buf bytes.Buffer
@@ -44,9 +44,9 @@ func TestCanRegisterUser(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	u := database.User{
-		PhoneNumber:     700545727,
-		Password:        "1234",
-		ConfirmPassword: "1234",
+		Email:    "700545727",
+		Password: "1234",
+		Passcode: 1234,
 	}
 
 	var buf bytes.Buffer

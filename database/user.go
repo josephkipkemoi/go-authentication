@@ -4,31 +4,30 @@ import (
 	"database/sql"
 	"errors"
 	"log"
-	"strconv"
 )
 
 type User struct {
-	Id              int64  `json:"id"`
-	PhoneNumber     int    `json:"phone_number"`
-	Password        string `json:"password"`
-	ConfirmPassword string `json:"confirm_password"`
+	Id       int64  `json:"id"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Passcode int    `json:"passcode"`
 }
 
 func (u User) SaveUser(db *sql.DB) (User, error) {
-	insertUserSQL := `INSERT INTO users(phone_number, password) VALUES (?, ?)`
+	insertUserSQL := `INSERT INTO users(email, password, passcode) VALUES (?, ?)`
 	statement, err := db.Prepare(insertUserSQL) // prepare statement // good to avoid sql injection
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	num := strconv.Itoa(u.PhoneNumber)
-	// Confirm number has set number of digits (9) before saving
-	if len(num) != 12 {
-		return User{}, errors.New("invalid phone number format. Expects 12 digits.")
-	}
+	// num := strconv.Itoa(u.PhoneNumber)
+	// // Confirm number has set number of digits (9) before saving
+	// if len(num) != 12 {
+	// 	return User{}, errors.New("invalid phone number format. Expects 12 digits.")
+	// }
 
 	// Save user resource to DB
-	res, err := statement.Exec(u.PhoneNumber, u.Password)
+	res, err := statement.Exec(u.Email, u.Password, u.Passcode)
 	if err != nil {
 		return User{}, errors.New("user already registered. login to continue.")
 	}
@@ -40,9 +39,9 @@ func (u User) SaveUser(db *sql.DB) (User, error) {
 	return u, nil
 }
 
-func (u User) GetUserID(phone_number int) (int, string) {
+func (u User) GetUserID(email string) (int, string) {
 	getUserSQL := `SELECT id FROM users WHERE phone_number = ?`
-	row, err := DB.Query(getUserSQL, phone_number)
+	row, err := DB.Query(getUserSQL, email)
 	if err != nil {
 		return 0, err.Error()
 	}
@@ -54,30 +53,30 @@ func (u User) GetUserID(phone_number int) (int, string) {
 	return id, ""
 }
 
-func (u User) GetUsers() (int, int) {
+func (u User) GetUsers() (int, string) {
 	getUsersSQL := `SELECT * FROM users`
 	row, err := DB.Query(getUsersSQL)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	var id int
-	var phone_number int
+	var email string
 	var password string
 	for row.Next() {
-		row.Scan(&id, &phone_number, &password)
+		row.Scan(&id, &email, &password)
 	}
-	return id, phone_number
+	return id, email
 
 }
 
 func (u User) AuthenticateUser(phone int, password string, db *sql.DB) (User, bool) {
-	var num int
+	var email string
 
 	selectQuery := `SELECT phone_number FROM users WHERE phone_number = ? AND password = ?`
-	if err := db.QueryRow(selectQuery, phone, password).Scan(&num); err != nil {
+	if err := db.QueryRow(selectQuery, phone, password).Scan(&email); err != nil {
 		u.GetUsers()
 		return User{}, false
 	}
 
-	return User{PhoneNumber: num}, true
+	return User{Email: email}, true
 }

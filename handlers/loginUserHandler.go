@@ -4,7 +4,6 @@ import (
 	"jk/go-sportsapp/database"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -45,7 +44,7 @@ func LoginUserHandler(c *gin.Context) {
 		return
 	}
 
-	uId, er := u.GetUserID(u.PhoneNumber)
+	uId, er := u.GetUserID(u.Email)
 	if er != "" {
 		log.Println(er)
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
@@ -54,8 +53,8 @@ func LoginUserHandler(c *gin.Context) {
 		return
 	}
 
-	username := strconv.Itoa(u.PhoneNumber)
-	tokenString, err := createJWTToken(username, uId)
+	// username := strconv.Itoa(u.PhoneNumber)
+	tokenString, err := createJWTToken(u.Email, uId)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": "authorization failure: " + err.Error(),
@@ -68,7 +67,7 @@ func LoginUserHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"user": gin.H{
 			"id":           uId,
-			"phone_number": u.PhoneNumber,
+			"phone_number": u.Email,
 		},
 		"token": tokenString,
 	})

@@ -3,7 +3,6 @@ package handlers
 import (
 	"jk/go-sportsapp/database"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,13 +14,14 @@ func RegisterUserHandler(c *gin.Context) {
 	u := database.User{}
 
 	if err := c.ShouldBindJSON(&u); err == nil {
-		ok := verifyPasswordMatch(u.Password, u.ConfirmPassword)
-		if !ok {
-			c.IndentedJSON(http.StatusUnprocessableEntity, gin.H{
-				"error": "Passwords do not match.",
-			})
-			return
-		}
+		// ok := verifyPasswordMatch(u.Password, u.ConfirmPassword)
+		// if !ok {
+		// 	c.IndentedJSON(http.StatusUnprocessableEntity, gin.H{
+		// 		"error": "Passwords do not match.",
+		// 	})
+		// 	return
+		// }
+		return
 	}
 
 	// TODO:
@@ -34,9 +34,9 @@ func RegisterUserHandler(c *gin.Context) {
 		return
 	}
 
-	username := strconv.Itoa(u.PhoneNumber)
+	// username := strconv.Itoa(u.Email)
 
-	tokenString, err := createJWTToken(username, int(u.Id))
+	tokenString, err := createJWTToken(u.Email, int(u.Id))
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"error": "Authorization failure: " + err.Error(),
@@ -46,8 +46,8 @@ func RegisterUserHandler(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusCreated, gin.H{
 		"user": gin.H{
-			"id":           u.Id,
-			"phone_number": u.PhoneNumber,
+			"id":    u.Id,
+			"email": u.Email,
 		},
 		"token": tokenString,
 	})
