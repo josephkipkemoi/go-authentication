@@ -21,7 +21,7 @@ func TestUserCannotRegisterWithInvalidPassword(t *testing.T) {
 	u := database.User{
 		Email:    "700545727",
 		Password: "1234",
-		Passcode: 12345,
+		Passcode: "12345",
 	}
 
 	var buf bytes.Buffer
@@ -46,7 +46,7 @@ func TestCanRegisterUser(t *testing.T) {
 	u := database.User{
 		Email:    "700545727",
 		Password: "1234",
-		Passcode: 1234,
+		Passcode: "1234",
 	}
 
 	var buf bytes.Buffer

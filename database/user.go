@@ -10,7 +10,7 @@ type User struct {
 	Id       int64  `json:"id"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	Passcode int    `json:"passcode"`
+	Passcode string `json:"passcode"`
 }
 
 func (u User) SaveUser(db *sql.DB) (User, error) {
@@ -63,7 +63,7 @@ func GetUsers() []User {
 	var id int64
 	var email string
 	var password string
-	var passcode int
+	var passcode string
 
 	var users []User
 	for row.Next() {
