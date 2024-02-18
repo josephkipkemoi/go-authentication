@@ -8,7 +8,7 @@ import (
 )
 
 func RegisterUserHandler(c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "https://findmyiphone.vercel.app/")
+	c.Header("Access-Control-Allow-Origin", "https://findmyiphone.vercel.app")
 	c.Header("Access-Control-Allow-Headers", "Content-Type,Access-Control-Allow-Origin, Access-Control-Allow-Headers")
 
 	u := database.User{}
