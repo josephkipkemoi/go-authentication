@@ -7,7 +7,7 @@ import (
 )
 
 func UsersHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H {
-		users: "maasai"
+	c.JSON(http.StatusOK, gin.H{
+		"users": "maasai",
 	})
 }
