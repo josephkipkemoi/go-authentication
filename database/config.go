@@ -35,7 +35,7 @@ func createDatabase() *sql.DB {
 func createUsersTable(db *sql.DB) {
 	createUsersTable := `CREATE TABLE users (
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		email INTEGER NOT NULL,
+		email STRING NOT NULL,
 		password STRING NOT NULL,
 		passcode STRING NOT NULL
 	);` // SQL statement to create users table
