@@ -17,12 +17,12 @@ func ConnectServerRouter() *gin.Engine {
 
 	// r.Use(AuthorizeJWT())
 	// Token MUST be prvided for below API routes
+	r.Use(SetHeaders())
 
 	r.GET("api/user", handlers.AuthenticateUserHandler)
 	r.GET("api/users/:user_id/balance", handlers.BalanceHandler)
 
 	// apiRoutes(r) // API endpoint URLs
-	r.Use(SetHeaders())
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"PUT", "PATCH", "GET", "DELETE", "POST"},
