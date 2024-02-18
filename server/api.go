@@ -13,8 +13,8 @@ func ConnectServerRouter() *gin.Engine {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://findmyiphone.vercel.app/"},
 		AllowMethods:     []string{"PUT", "PATCH", "GET", "DELETE", "POST"},
-		AllowHeaders:     []string{"Origin, Content-Type, Token, Accept, X-Requested-With, withCredentials"},
-		ExposeHeaders:    []string{"Origin, Content-Type, Token, Accept, X-Requested-With"},
+		AllowHeaders:     []string{"Origin, Content-Type, Token, Accept, X-Requested-With, withCredentials, Access-Control-Allow-Origin"},
+		ExposeHeaders:    []string{"Origin, Content-Type, Token, Accept, X-Requested-With, Access-Control-Allow-Origin"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
