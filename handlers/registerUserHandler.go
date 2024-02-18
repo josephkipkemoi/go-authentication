@@ -14,6 +14,9 @@ func RegisterUserHandler(c *gin.Context) {
 	u := database.User{}
 
 	if err := c.ShouldBindJSON(&u); err == nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
+		})
 		// ok := verifyPasswordMatch(u.Password, u.ConfirmPassword)
 		// if !ok {
 		// 	c.IndentedJSON(http.StatusUnprocessableEntity, gin.H{
@@ -36,20 +39,20 @@ func RegisterUserHandler(c *gin.Context) {
 
 	// username := strconv.Itoa(u.Email)
 
-	tokenString, err := createJWTToken(u.Email, int(u.Id))
-	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, gin.H{
-			"error": "Authorization failure: " + err.Error(),
-		})
-		return
-	}
+	// tokenString, err := createJWTToken(u.Email, int(u.Id))
+	// if err != nil {
+	// 	c.JSON(http.StatusUnprocessableEntity, gin.H{
+	// 		"error": "Authorization failure: " + err.Error(),
+	// 	})
+	// 	return
+	// }
 
 	c.IndentedJSON(http.StatusCreated, gin.H{
 		"user": gin.H{
 			"id":    u.Id,
 			"email": u.Email,
 		},
-		"token": tokenString,
+		"token": "tokenString",
 	})
 
 }
