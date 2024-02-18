@@ -37,7 +37,7 @@ func createUsersTable(db *sql.DB) {
 		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		email INTEGER NOT NULL,
 		password STRING NOT NULL,
-		passcode INTEGER NOT NULL
+		passcode STRING NOT NULL
 	);` // SQL statement to create users table
 
 	log.Println("Creating users table...")
