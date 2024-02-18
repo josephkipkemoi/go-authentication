@@ -16,7 +16,7 @@ type Login struct {
 
 func LoginUserHandler(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "https://findmyiphone.vercel.app/")
-	c.Header("Access-Control-Allow-Headers", "Content-Type,access-control-allow-origin, access-control-allow-headers")
+	c.Header("Access-Control-Allow-Headers", "Content-Type,Access-Control-Allow-Origin, Access-Control-Allow-Headers")
 	i := Login{}
 	u := database.User{}
 

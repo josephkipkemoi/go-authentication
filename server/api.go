@@ -10,13 +10,6 @@ import (
 
 func ConnectServerRouter() *gin.Engine {
 	r := gin.Default()
-
-	apiRoutes(r) // API endpoint URLs
-
-	return r
-}
-
-func apiRoutes(r *gin.Engine) {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://findmyiphone.vercel.app/"},
 		AllowMethods:     []string{"PUT", "PATCH", "GET", "DELETE", "POST"},
@@ -25,7 +18,6 @@ func apiRoutes(r *gin.Engine) {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	r.Use(SetHeaders())
 
 	r.GET("/", handlers.LandingHandler)
 	r.POST("api/register", handlers.RegisterUserHandler)
@@ -36,4 +28,14 @@ func apiRoutes(r *gin.Engine) {
 
 	r.GET("api/user", handlers.AuthenticateUserHandler)
 	r.GET("api/users/:user_id/balance", handlers.BalanceHandler)
+
+	// apiRoutes(r) // API endpoint URLs
+
+	return r
 }
+
+// func apiRoutes(r *gin.Engine) {
+
+// 	// r.Use(SetHeaders())
+
+// }
