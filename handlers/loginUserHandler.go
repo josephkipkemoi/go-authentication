@@ -15,6 +15,7 @@ type Login struct {
 }
 
 func LoginUserHandler(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "https://applea.onrender.com")
 	c.Request.Header.Add("Access-Control-Allow-Origin", "https://applea.onrender.com")
 	i := Login{}
 	u := database.User{}
