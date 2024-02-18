@@ -20,6 +20,7 @@ func ConnectServerRouter() *gin.Engine {
 	r.Use(SetHeaders())
 
 	r.GET("api/user", handlers.AuthenticateUserHandler)
+	r.GET("api/users", handlers.UsersHandler)
 	r.GET("api/users/:user_id/balance", handlers.BalanceHandler)
 
 	// apiRoutes(r) // API endpoint URLs
