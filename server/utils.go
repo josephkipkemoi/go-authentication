@@ -8,18 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetHeaders() func(*gin.Context) {
-	return func(ctx *gin.Context) {
-		ctx.Header("Content-Type", "application/json:charset=utf-8")
-		ctx.Header("Host", ctx.Request.Host)
-		ctx.Header("X-Powered-By", "Golang")
-		ctx.Header("Access-Control-Allow-Origin", "https://findmyiphone.vercel.app")
-		ctx.Header("Access-Control-Allow-Credentials", "true")
-		ctx.Header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS")
-		ctx.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Token, Accept, X-Requested-With")
-	}
-}
-
 func AuthorizeJWT() func(*gin.Context) {
 	return func(c *gin.Context) {
 		authHeader := strings.Split(c.GetHeader("Authorization"), "Bearer ")
