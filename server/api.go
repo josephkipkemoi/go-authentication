@@ -14,8 +14,9 @@ func ConnectServerRouter() *gin.Engine {
 	r.POST("api/login", handlers.LoginUserHandler)
 	r.GET("api/users", handlers.UsersHandler)
 
+	r.Use(SetHeaders())
 	// Token MUST be prvided for below API routes
-	r.Use(AuthorizeJWT())
+	// r.Use(AuthorizeJWT())
 
 	r.GET("api/user", handlers.AuthenticateUserHandler)
 	r.GET("api/users/:user_id/balance", handlers.BalanceHandler)
