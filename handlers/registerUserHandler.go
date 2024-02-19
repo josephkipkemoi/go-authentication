@@ -10,7 +10,7 @@ import (
 func RegisterUserHandler(c *gin.Context) {
 	enableCors(c)
 	c.Header("Access-Control-Allow-Origin", "http://findmyiphone.vercel.app")
-	ctx.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Token, Accept, X-Requested-With, Access-Control-Allow-Origin")
+	c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Token, Accept, X-Requested-With, Access-Control-Allow-Origin, Access-Control-Allow-Headers")
 
 	u := database.User{}
 
