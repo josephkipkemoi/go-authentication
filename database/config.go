@@ -17,17 +17,23 @@ func ConnentDB() {
 }
 
 func createDatabase() *sql.DB {
-	os.Remove("./database/files/pinacle.db") // delete file to avoid duplication
-	log.Println("Creating pinacle database...")
+	var fp string = "./database/files/pinacle.db"
+	ok := checkFileExists(fp)
 
-	file, err := os.Create("./database/files/pinacle.db") // create SQLite file
-	checkErr(err)
-	file.Close()
-	log.Println("pinacle.db created...")
+	if !ok {
+		file, err := os.Create(fp) // create SQLite file
+		checkErr(err)
+		file.Close()
+		log.Println("pinacledb.db created...")
+	}
 
-	pinacleDb, _ := sql.Open("sqlite3", "./database/files/pinacle.db") // open the created pinacle db file
-	// defer pinacleDb.Close()                                            // defer closing the database
-	createUsersTable(pinacleDb)
+	pinacleDb, _ := sql.Open("sqlite3", fp) // open the created pinacle db file
+
+	if !ok {
+		createUsersTable(pinacleDb)
+	}
+
+	log.Println("pinacledb running...")
 
 	return pinacleDb
 }
@@ -55,4 +61,9 @@ func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func checkFileExists(fp string) bool {
+	_, err := os.Stat(fp)
+	return err == nil
 }
