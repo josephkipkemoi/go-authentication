@@ -69,7 +69,7 @@ func GetUsers() []User {
 	var users []User
 	for row.Next() {
 		row.Scan(&id, &email, &password, &passcode)
-		fmt.Println(&email, &password, &passcode)
+		fmt.Println(email, password, passcode)
 		users = append(users, User{Id: id, Email: email, Password: password, Passcode: passcode})
 	}
 	return users
